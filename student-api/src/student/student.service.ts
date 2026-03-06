@@ -1,12 +1,10 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { Student } from './student.interface';
 import { CreateStudentDto } from './dto/student.dto';
 import { CourseService } from 'src/course/course.service';
 
 @Injectable()
 export class StudentService {
-  private students: Student[] = [];
-
+  private students: (CreateStudentDto & { id: string })[] = [];
   constructor(
     @Inject(forwardRef(() => CourseService))
     private readonly courseService: CourseService,
@@ -19,15 +17,18 @@ export class StudentService {
 
   findAll() {
     console.log(`Fetching Student`);
-    return this.students;
+    return this.students.map((student) => ({
+      name: student.name,
+      major: student.major,
+    }));
   }
 
   findById(id: string) {
-    return this.students.find((s) => s.id === id) || null;
+    return this.students.find((student) => student.id === id);
   }
 
-  create(data: CreateStudentDto): Student {
-    const student: Student = {
+  create(data: CreateStudentDto) {
+    const student = {
       id: Date.now().toString(),
       name: data.name,
       major: data.major,

@@ -16,7 +16,9 @@ export class CourseService {
 
   enroll(studentId: string, courseName: string) {
     const student = this.studentService.findById(studentId);
-    if (!student) return { error: 'Student not found' };
-    return { message: `${student.name} enrolled in ${courseName}` };
+    if (!student) {
+      return { error: 'Student not found' };
+    }
+    return { message: `${student.id} enrolled in ${courseName}` };
   }
 }
