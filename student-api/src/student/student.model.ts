@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-interface StudentAttrs {
+export interface StudentAttrs {
   name: string;
   major: string;
   year: number;
@@ -22,15 +22,18 @@ const schema = new mongoose.Schema(
     major: { type: String, required: true },
     year: { type: Number, required: true },
   },
-  //   {
-  //     toJSON: {
-  //       transform(doc, ret) {
-  //         ret.id = ret._id; // MongoDB uses _id, but most APIs prefer id
-  //         delete ret._id; // After copying _id to id, we remove _id
-  //         delete ret.__v; // __v is a Mongoose version key used internally
-  //       },
-  //     },
-  //   },
+  {
+    toJSON: {
+      transform(doc: any, ret: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        ret.id = ret._id; // MongoDB uses _id, but most APIs prefer id
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        delete ret._id; // After copying _id to id, we remove _id
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        delete ret.__v; // __v is a Mongoose version key used internally
+      },
+    },
+  },
 );
 schema.statics.build = (studentAttrs: StudentAttrs) =>
   new Student(studentAttrs);

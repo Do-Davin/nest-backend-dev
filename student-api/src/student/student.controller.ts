@@ -1,10 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CourseService } from 'src/course/course.service';
-// import {
-//   CreateStudentSchema,
-//   JoiValidationPipe,
-// } from './schemas/create-student.schema';
+import { CreateStudentSchema } from './schemas/create-student.schema';
+import { JoiValidationPipe } from 'src/common/joi-validation.pipe';
+import type { StudentAttrs } from './student.model';
 
 @Controller('student')
 export class StudentController {
@@ -23,9 +22,9 @@ export class StudentController {
   //   return this.courseService.getAllCourses();
   // }
 
-  // @Post()
-  // @UsePipes(new JoiValidationPipe(CreateStudentSchema))
-  // create(@Body() body: StudentAttrs) {
-  //   return this.studentService.create(body);
-  // }
+  @Post()
+  @UsePipes(new JoiValidationPipe(CreateStudentSchema))
+  create(@Body() body: StudentAttrs) {
+    return this.studentService.create(body);
+  }
 }
