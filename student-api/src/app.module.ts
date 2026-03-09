@@ -6,6 +6,7 @@ import { CourseModule } from './modules/course/course.module';
 import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     }),
     StudentModule,
     CourseModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
