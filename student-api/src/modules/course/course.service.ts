@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { StudentService } from 'src/student/student.service';
+import { StudentService } from 'src/modules/student/student.service';
 
 @Injectable()
 export class CourseService {
@@ -9,6 +9,9 @@ export class CourseService {
     private readonly studentService: StudentService,
   ) {}
 
+  /**
+   * Circular Dependency problems Fixed
+   */
   getAllCourses() {
     console.log(`Fetching Course`);
     return this.courses;
@@ -19,6 +22,6 @@ export class CourseService {
     if (!student) {
       return { error: 'Student not found' };
     }
-    return { message: `${student.id} enrolled in ${courseName}` };
+    return { message: `${student.name} enrolled in ${courseName}` };
   }
 }

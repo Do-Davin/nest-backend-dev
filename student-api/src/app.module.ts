@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { StudentModule } from './student/student.module';
-import { CourseModule } from './course/course.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { StudentModule } from './modules/student/student.module';
+import { CourseModule } from './modules/course/course.module';
 import { join } from 'path';
+import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({

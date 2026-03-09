@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CourseController } from './course.controller';
 import { CourseService } from './course.service';
-import { StudentModule } from 'src/student/student.module';
+import { StudentModule } from 'src/modules/student/student.module';
 import { forwardRef } from '@nestjs/common';
 
 @Module({

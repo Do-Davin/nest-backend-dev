@@ -1,33 +1,39 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { CreateStudentDto } from './dto/student.dto';
-import { CourseService } from 'src/course/course.service';
+import { CourseService } from 'src/modules/course/course.service';
+
+export interface Student {
+  id: string;
+  name: string;
+  major: string;
+}
 
 @Injectable()
 export class StudentService {
-  private students: (CreateStudentDto & { id: string })[] = [];
+  // private students: (CreateStudentDto & { id: string })[] = [];
+  private students: Student[] = [];
   constructor(
     @Inject(forwardRef(() => CourseService))
     private readonly courseService: CourseService,
   ) {}
 
+  /**
+   * Circular Dependency Problem Fixed
+   */
   getAllCoursesFromStudent() {
-    console.log(`Get all courses from Student`);
+    console.log(`[TEST]: Get all courses from Student`);
     return this.courseService.getAllCourses();
   }
 
   findAll() {
     console.log(`Fetching Student`);
-    return this.students.map((student) => ({
-      name: student.name,
-      major: student.major,
-    }));
+    return this.students;
   }
 
   findById(id: string) {
-    return this.students.find((student) => student.id === id);
+    return this.students.find((s) => s.id === id) || null;
   }
 
-  create(data: CreateStudentDto) {
+  create(data: { name: string; major: string }) {
     const student = {
       id: Date.now().toString(),
       name: data.name,
